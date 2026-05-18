@@ -1,0 +1,177 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:#eef2ff;
+    padding:15px;
+}
+
+.container{
+    max-width:750px;
+    margin:auto;
+}
+
+/* Cards */
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Header */
+
+.header{
+    background:#4f46e5;
+    color:white;
+    padding:18px;
+    border-radius:16px;
+    text-align:center;
+    margin-bottom:20px;
+}
+
+/* Text */
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+textarea{
+    width:100%;
+    min-height:120px;
+    padding:15px;
+    resize:none;
+    border-radius:10px;
+    border:1px solid #ccc;
+    margin-bottom:15px;
+    font-size:16px;
+}
+
+input[type="file"]{
+    width:100%;
+    margin-bottom:15px;
+}
+
+/* Buttons */
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#4f46e5;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+}
+
+button:hover{
+    background:#4338ca;
+}
+
+/* Notices */
+
+.notice{
+    background:white;
+    padding:18px;
+    margin-top:20px;
+    border-radius:14px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    border-left:5px solid #4f46e5;
+}
+
+/* Images */
+
+.notice img{
+    width:100%;
+    max-height:400px;
+    object-fit:cover;
+    border-radius:10px;
+    margin-top:12px;
+    cursor:pointer;
+}
+
+/* Links */
+
+.notice a{
+    display:inline-block;
+    margin-top:10px;
+    color:#4f46e5;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.notice a:hover{
+    text-decoration:underline;
+}
+
+/* Time */
+
+.notice small{
+    display:block;
+    margin-top:10px;
+    color:gray;
+}
+
+/* Empty */
+
+.empty{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    text-align:center;
+}
+
+/* Fullscreen Image Viewer */
+
+.imageModal{
+    display:none;
+    position:fixed;
+    z-index:999;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.9);
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.imageModal img{
+    max-width:100%;
+    max-height:90%;
+    border-radius:10px;
+}
+
+.imageModal span{
+    position:absolute;
+    top:20px;
+    right:30px;
+    color:white;
+    font-size:40px;
+    cursor:pointer;
+}
+
+/* Mobile */
+
+@media(max-width:600px){
+
+    h1{
+        font-size:24px;
+    }
+
+    button{
+        padding:12px;
+    }
+
+    textarea{
+        font-size:15px;
+    }
+}

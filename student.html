@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Dashboard</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h1>📚 Student Notices</h1>
+
+    </div>
+
+    <div id="noticeContainer"></div>
+
+</div>
+
+<!-- Fullscreen Image Modal -->
+
+<div class="imageModal" id="imageModal">
+
+    <span onclick="closeImage()">&times;</span>
+
+    <img id="modalImage">
+
+</div>
+
+<script>
+
+/* Render Files */
+
+function renderFile(notice){
+
+    if(notice.fileType.startsWith("image/")){
+
+        return `
+        <img src="${notice.file}"
+        onclick="openImage('${notice.file}')">
+        `;
+    }
+
+    else if(notice.fileType === "application/pdf"){
+
+        return `
+        <a href="${notice.file}"
+        target="_blank"
+        download="${notice.fileName}">
+            📄 Open PDF: ${notice.fileName}
+        </a>
+        `;
+    }
+
+    else{
+
+        return `
+        <a href="${notice.file}"
+        download="${notice.fileName}">
+            📁 Download File: ${notice.fileName}
+        </a>
+        `;
+    }
+}
+
+/* Load Notices */
+
+function loadNotices(){
+
+    const container =
+    document.getElementById("noticeContainer");
+
+    let notices =
+    JSON.parse(localStorage.getItem("schoolNotices"))
+    || [];
+
+    if(notices.length === 0){
+
+        container.innerHTML = `
+        <div class="empty">
+
+            <p>No notices uploaded yet.</p>
+
+        </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML = "";
+
+    notices.forEach(notice => {
+
+        container.innerHTML += `
+
+        <div class="notice">
+
+            <h2>📢 New Notice</h2>
+
+            <p>${notice.text}</p>
+
+            ${notice.file ? renderFile(notice) : ""}
+
+            <small>${notice.time}</small>
+
+        </div>
+        `;
+    });
+}
+
+/* Open Fullscreen Image */
+
+function openImage(src){
+
+    document.getElementById("imageModal")
+    .style.display = "flex";
+
+    document.getElementById("modalImage")
+    .src = src;
+}
+
+/* Close Fullscreen Image */
+
+function closeImage(){
+
+    document.getElementById("imageModal")
+    .style.display = "none";
+}
+
+loadNotices();
+
+</script>
+
+</body>
+</html>

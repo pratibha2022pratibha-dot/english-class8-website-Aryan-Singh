@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>School Login</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:#eef2ff;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+
+.loginBox{
+    background:white;
+    padding:30px;
+    width:100%;
+    max-width:400px;
+    border-radius:18px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:25px;
+    color:#222;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    margin-bottom:15px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    font-size:16px;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#4f46e5;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#4338ca;
+}
+
+@media(max-width:600px){
+
+    .loginBox{
+        padding:20px;
+    }
+
+    h1{
+        font-size:24px;
+    }
+
+    input,
+    button{
+        font-size:15px;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="loginBox">
+
+    <h1>🏫 School Login</h1>
+
+    <input
+    type="email"
+    id="email"
+    placeholder="Enter Email">
+
+    <input
+    type="password"
+    id="password"
+    placeholder="Enter Password">
+
+    <button onclick="login()">
+        Login
+    </button>
+
+</div>
+
+<script>
+
+function login(){
+
+    const email =
+    document.getElementById("email").value.trim();
+
+    const password =
+    document.getElementById("password").value.trim();
+
+    /* Teacher Login */
+
+    if(
+        email === "teacher1@school.com"
+        &&
+        password === "teacher1230"
+    ){
+
+        alert("Teacher Login Successful!");
+
+        window.location.href =
+        "teacher.html";
+    }
+
+    /* Student Login */
+
+    else if(
+        email === "class8@school.com"
+        &&
+        password === "TAIS123"
+    ){
+
+        alert("Student Login Successful!");
+
+        window.location.href =
+        "student.html";
+    }
+
+    /* Wrong Login */
+
+    else{
+
+        alert("Invalid Email or Password");
+    }
+}
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Teacher Dashboard</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, sans-serif;
+    background:#eef2ff;
+    padding:15px;
+}
+
+.container{
+    max-width:750px;
+    margin:auto;
+}
+
+/* Card */
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Heading */
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+    color:#222;
+}
+
+/* Textarea */
+
+textarea{
+    width:100%;
+    min-height:120px;
+    resize:none;
+    padding:15px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    margin-bottom:15px;
+    font-size:16px;
+}
+
+/* File Input */
+
+input[type="file"]{
+    width:100%;
+    margin-bottom:15px;
+}
+
+/* Button */
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:#4f46e5;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#4338ca;
+}
+
+/* Notice */
+
+.notice{
+    background:white;
+    padding:18px;
+    margin-top:20px;
+    border-radius:14px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    border-left:5px solid #4f46e5;
+    word-wrap:break-word;
+}
+
+/* Images */
+
+.notice img{
+    width:100%;
+    max-height:400px;
+    object-fit:cover;
+    border-radius:10px;
+    margin-top:12px;
+}
+
+/* File Links */
+
+.notice a{
+    display:inline-block;
+    margin-top:12px;
+    color:#4f46e5;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+.notice a:hover{
+    text-decoration:underline;
+}
+
+/* Time */
+
+.notice small{
+    display:block;
+    margin-top:10px;
+    color:gray;
+}
+
+/* Delete Button */
+
+.deleteBtn{
+    background:#dc2626;
+    margin-top:15px;
+}
+
+.deleteBtn:hover{
+    background:#b91c1c;
+}
+
+/* Mobile */
+
+@media(max-width:600px){
+
+    h1{
+        font-size:24px;
+    }
+
+    textarea{
+        font-size:15px;
+    }
+
+    button{
+        padding:12px;
+        font-size:15px;
+    }
+
+    .card{
+        padding:15px;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="card">
+
+        <h1>👨‍🏫 Teacher Dashboard</h1>
+
+        <textarea
+        id="noticeText"
+        placeholder="Write notice here..."></textarea>
+
+        <input
+        type="file"
+        id="fileInput"
+        accept="image/*,.pdf,.ppt,.pptx,.doc,.docx">
+
+        <button onclick="uploadNotice()">
+            Upload Notice
+        </button>
+
+    </div>
+
+    <div id="preview"></div>
+
+</div>
+
+<script>
+
+/* Upload Notice */
+
+function uploadNotice(){
+
+    const text =
+    document.getElementById("noticeText").value;
+
+    const file =
+    document.getElementById("fileInput").files[0];
+
+    if(text === "" && !file){
+
+        alert("Please add text or file.");
+
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(){
+
+        const fileData = file ? reader.result : "";
+
+        const notice = {
+
+            text:text,
+
+            file:fileData,
+
+            fileName:file ? file.name : "",
+
+            fileType:file ? file.type : "",
+
+            time:new Date().toLocaleString()
+        };
+
+        let notices =
+        JSON.parse(localStorage.getItem("schoolNotices"))
+        || [];
+
+        notices.unshift(notice);
+
+        localStorage.setItem(
+            "schoolNotices",
+            JSON.stringify(notices)
+        );
+
+        document.getElementById("noticeText").value = "";
+
+        document.getElementById("fileInput").value = "";
+
+        alert("Notice Uploaded Successfully!");
+
+        displayTeacherNotices();
+    }
+
+    if(file){
+
+        reader.readAsDataURL(file);
+    }
+    else{
+
+        reader.onload();
+    }
+}
+
+/* Render Files */
+
+function renderFile(notice){
+
+    if(notice.fileType.startsWith("image/")){
+
+        return `
+        <img src="${notice.file}">
+        `;
+    }
+
+    else if(notice.fileType === "application/pdf"){
+
+        return `
+        <a href="${notice.file}"
+        target="_blank"
+        download="${notice.fileName}">
+            📄 Open PDF:
+            ${notice.fileName}
+        </a>
+        `;
+    }
+
+    else{
+
+        return `
+        <a href="${notice.file}"
+        download="${notice.fileName}">
+            📁 Download File:
+            ${notice.fileName}
+        </a>
+        `;
+    }
+}
+
+/* Display Notices */
+
+function displayTeacherNotices(){
+
+    const preview =
+    document.getElementById("preview");
+
+    let notices =
+    JSON.parse(localStorage.getItem("schoolNotices"))
+    || [];
+
+    preview.innerHTML = "";
+
+    notices.forEach((notice, index) => {
+
+        preview.innerHTML += `
+
+        <div class="notice">
+
+            <h3>📌 Notice</h3>
+
+            <p>${notice.text}</p>
+
+            ${notice.file ? renderFile(notice) : ""}
+
+            <small>${notice.time}</small>
+
+            <button
+            class="deleteBtn"
+            onclick="deleteNotice(${index})">
+
+                🗑️ Delete Notice
+
+            </button>
+
+        </div>
+        `;
+    });
+}
+
+/* Delete Notice */
+
+function deleteNotice(index){
+
+    let notices =
+    JSON.parse(localStorage.getItem("schoolNotices"))
+    || [];
+
+    const confirmDelete =
+    confirm("Delete this notice?");
+
+    if(confirmDelete){
+
+        notices.splice(index, 1);
+
+        localStorage.setItem(
+            "schoolNotices",
+            JSON.stringify(notices)
+        );
+
+        displayTeacherNotices();
+
+        alert("Notice Deleted Successfully!");
+    }
+}
+
+/* Load Existing Notices */
+
+displayTeacherNotices();
+
+</script>
+
+</body>
+
+</html>

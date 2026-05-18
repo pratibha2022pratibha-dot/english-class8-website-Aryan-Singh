@@ -1,0 +1,47 @@
+<script>
+
+function login(){
+
+    const email =
+    document.getElementById("email").value.trim();
+
+    const password =
+    document.getElementById("password").value.trim();
+
+    /* Teacher Login */
+
+    if(
+        email === "teacher1@school.com"
+        &&
+        password === "teacher1230"
+    ){
+
+        alert("Teacher Login Successful!");
+
+        window.location.href =
+        "teacher.html";
+    }
+
+    /* Student Login */
+
+    else if(
+        email === "class8@school.com"
+        &&
+        password === "TAIS123"
+    ){
+
+        alert("Student Login Successful!");
+
+        window.location.href =
+        "student.html";
+    }
+
+    /* Wrong Login */
+
+    else{
+
+        alert("Invalid Email or Password");
+    }
+}
+
+</script>
